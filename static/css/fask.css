@@ -15,6 +15,10 @@ body {
   letter-spacing: -0.025em;
 }
 
+.publication-title-line {
+  display: block;
+}
+
 .publication-authors {
   margin-bottom: 0.75rem;
 }
@@ -117,10 +121,11 @@ body {
   background: #eef5ff;
 }
 
-.real-results-table {
-  max-width: 760px;
-  margin-right: auto;
-  margin-left: auto;
+.full-results-table thead tr:last-child th:first-child,
+.full-results-table tbody td:nth-child(2) {
+  min-width: 78px;
+  padding-left: 1.1rem !important;
+  padding-right: 1.1rem !important;
 }
 
 .video-note {
@@ -267,6 +272,14 @@ body {
 @media screen and (max-width: 768px) {
   .publication-title {
     font-size: 2rem !important;
+  }
+
+  .publication-title-line {
+    display: inline;
+  }
+
+  .publication-title-line + .publication-title-line::before {
+    content: " ";
   }
 
   .publication-header .hero-body {
