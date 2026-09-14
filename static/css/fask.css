@@ -90,6 +90,45 @@ body {
   background: #eef5ff;
 }
 
+.full-results-wrap {
+  overflow-x: auto;
+}
+
+.full-results-table {
+  min-width: 1680px;
+  font-size: 0.78rem;
+}
+
+.full-results-table th:first-child,
+.full-results-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 132px;
+  background: white;
+}
+
+.full-results-table thead th:first-child {
+  z-index: 2;
+  background: #fafafa;
+}
+
+.full-results-table .ours td:first-child {
+  background: #eef5ff;
+}
+
+.real-results-table {
+  max-width: 760px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.video-note {
+  margin: -0.5rem 0 1.25rem;
+  color: #777;
+  font-size: 0.82rem;
+}
+
 .analysis-section {
   background: #fff;
 }

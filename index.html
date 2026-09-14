@@ -7,7 +7,7 @@
   <meta name="description" content="FASK: Future-Aware Visuomotor Policy Learning via State-Action Coupled Koopman Dynamics.">
   <meta name="author" content="Anonymous Authors">
   <title>FASK: Future-Aware Visuomotor Policy Learning</title>
-  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="icon" type="image/png" href="static/images/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -83,18 +83,33 @@
           </p>
         </div>
 
-        <div class="table-container paper-table">
-          <table class="table is-bordered is-striped is-hoverable is-fullwidth">
-            <caption>Table I. Success-rate summary from the paper (%)</caption>
+        <div class="table-container paper-table full-results-wrap">
+          <table class="table is-bordered is-striped is-hoverable full-results-table">
+            <caption>Table I. Success rates on 14 MetaWorld tasks and two Adroit tasks (%)</caption>
             <thead>
-              <tr><th>Method</th><th>MetaWorld Mean</th><th>Adroit Door</th><th>Adroit Pen</th><th>Adroit Mean</th></tr>
+              <tr>
+                <th rowspan="2">Method</th>
+                <th colspan="3">Easy</th>
+                <th colspan="6">Medium</th>
+                <th colspan="3">Hard</th>
+                <th colspan="2">Very Hard</th>
+                <th rowspan="2">MetaWorld<br>Mean</th>
+                <th colspan="3">Adroit</th>
+              </tr>
+              <tr>
+                <th>Dial<br>Turn</th><th>Handle<br>Press</th><th>Peg Unplug<br>Side</th>
+                <th>Bin<br>Picking</th><th>Coffee<br>Pull</th><th>Peg Insert<br>Side</th><th>Push<br>Wall</th><th>Soccer</th><th>Sweep</th>
+                <th>Pick Out<br>of Hole</th><th>Push</th><th>Stick<br>Pull</th>
+                <th>Stick<br>Push</th><th>Pick Place<br>Wall</th>
+                <th>Door</th><th>Pen</th><th>Mean</th>
+              </tr>
             </thead>
             <tbody>
-              <tr><td>Diffusion Policy</td><td>35.1</td><td>37</td><td>13</td><td>25.0</td></tr>
-              <tr><td>DP3</td><td>69.7</td><td>70</td><td>80</td><td>75.0</td></tr>
-              <tr><td>FVP</td><td>54.3</td><td>66</td><td>76</td><td>71.0</td></tr>
-              <tr><td>AFRO</td><td>76.0</td><td><strong>82</strong></td><td>84</td><td>83.0</td></tr>
-              <tr class="ours"><td>FASK (Ours)</td><td><strong>79.3</strong></td><td>80</td><td><strong>88</strong></td><td><strong>84.0</strong></td></tr>
+              <tr><td>Diffusion Policy</td><td>60</td><td>82</td><td>78</td><td>16</td><td>34</td><td>34</td><td>56</td><td>22</td><td>32</td><td>0</td><td>30</td><td>20</td><td>66</td><td>8</td><td>38.4</td><td>40</td><td>16</td><td>28.0</td></tr>
+              <tr><td>DP3</td><td>76</td><td>86</td><td>86</td><td>18</td><td>90</td><td>74</td><td>78</td><td>38</td><td>92</td><td>24</td><td>74</td><td>58</td><td>88</td><td>94</td><td>69.7</td><td>70</td><td>80</td><td>75.0</td></tr>
+              <tr><td>FVP</td><td>72</td><td>88</td><td>80</td><td>16</td><td>66</td><td>70</td><td>36</td><td>34</td><td>44</td><td>26</td><td>42</td><td>24</td><td>84</td><td>78</td><td>54.3</td><td>66</td><td>76</td><td>71.0</td></tr>
+              <tr><td>AFRO</td><td><strong>78</strong></td><td><strong>98</strong></td><td>88</td><td>20</td><td>92</td><td><strong>92</strong></td><td>80</td><td>36</td><td>98</td><td>32</td><td>78</td><td><strong>78</strong></td><td><strong>100</strong></td><td>94</td><td>76.0</td><td><strong>82</strong></td><td>84</td><td>83.0</td></tr>
+              <tr class="ours"><td>FASK (Ours)</td><td>70</td><td>96</td><td><strong>100</strong></td><td><strong>30</strong></td><td><strong>100</strong></td><td>90</td><td><strong>88</strong></td><td><strong>40</strong></td><td><strong>100</strong></td><td><strong>34</strong></td><td><strong>86</strong></td><td>76</td><td><strong>100</strong></td><td><strong>100</strong></td><td><strong>79.3</strong></td><td>80</td><td><strong>88</strong></td><td><strong>84.0</strong></td></tr>
             </tbody>
           </table>
         </div>
@@ -205,6 +220,19 @@
     <section class="section hero is-light">
       <div class="container is-max-desktop">
         <h2 class="title is-3 has-text-centered">Real-World Experiments</h2>
+        <div class="table-container paper-table real-results-table">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+            <caption>Table III. Real-world success rates over 20 trials per task (%)</caption>
+            <thead>
+              <tr><th>Method</th><th>Potato into Bowl</th><th>Drawer Opening</th><th>Block Stacking</th><th>Average</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>DP3</td><td>70</td><td>60</td><td>55</td><td>61.7</td></tr>
+              <tr class="ours"><td>FASK (Ours)</td><td><strong>85</strong></td><td><strong>75</strong></td><td><strong>75</strong></td><td><strong>78.3</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="video-note has-text-centered">Videos are shown at 2× speed.</p>
         <div class="fask-carousel real-carousel" data-carousel aria-label="Real-world experiment videos">
           <div class="carousel-viewport" tabindex="0">
             <div class="carousel-track">
