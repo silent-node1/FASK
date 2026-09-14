@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="FASK: Future-Aware Visuomotor Policy Learning via State-Action Coupled Koopman Dynamics.">
+  <meta name="author" content="Anonymous Authors">
+  <title>FASK: Future-Aware Visuomotor Policy Learning</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="static/css/fask.css">
+</head>
+<body>
+  <main>
+    <section class="hero publication-header">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-1 publication-title">
+                FASK: Future-Aware Visuomotor Policy Learning via State–Action Coupled Koopman Dynamics
+              </h1>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">Anonymous Authors</span>
+              </div>
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <span class="link-block">
+                    <a href="static/pdfs/paper.pdf" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                      <span>Paper</span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                Diffusion-based imitation learning has emerged as a powerful paradigm for learning expressive visuomotor policies from demonstrations. However, existing action diffusion policies primarily optimize action likelihood without explicitly evaluating whether generated actions induce task-consistent future state transitions. Consequently, they lack the ability to anticipate the future consequences of generated actions, making it difficult to maintain task progress when future state evolution depends on complex interactions or changing task conditions. To address this issue, we introduce FASK (Future-Aware State-Action Koopman), which couples diffusion-based action generation with state-action bilinear Koopman dynamics to predict the future state consequences of intermediate action proposals before execution. Specifically, FASK learns a state-action coupled Koopman dynamics model to predict how candidate actions influence future latent states, enabling the policy to evaluate both action similarity and task-relevant future consequences. The predicted consequence representation is then used as a self-conditioning signal at the same diffusion noise level to refine the action proposal without introducing an additional diffusion transition. Extensive experiments in both simulation and real-world settings validate the effectiveness of FASK.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-desktop has-text-centered">
+        <h2 class="title is-3">Method Overview</h2>
+        <figure class="method-figure">
+          <img src="static/images/pipeline.png" alt="Overview of the FASK pipeline" loading="lazy">
+        </figure>
+        <div class="content has-text-justified method-copy">
+          <p>
+            A shared observation encoder produces the current latent state and diffusion condition. At selected low-noise diffusion steps, the first denoiser pass produces a candidate action sequence. The action-modulated Koopman model rolls out the latent consequence induced by that candidate, and a consequence encoder feeds the result back through FiLM to refine the action at the same noise level before a single DDIM update.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Experimental Results</h2>
+        <div class="content has-text-justified result-copy">
+          <p>
+            On MetaWorld, FASK achieves a mean success rate of 79.3%, outperforming AFRO by 3.3 points and its DP3 backbone by 9.6 points. On Adroit, FASK obtains 80% success on Door and 88% on Pen, yielding the best mean success rate of 84.0%.
+          </p>
+        </div>
+
+        <div class="table-container paper-table">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+            <caption>Table I. Success-rate summary from the paper (%)</caption>
+            <thead>
+              <tr><th>Method</th><th>MetaWorld Mean</th><th>Adroit Door</th><th>Adroit Pen</th><th>Adroit Mean</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Diffusion Policy</td><td>35.1</td><td>37</td><td>13</td><td>25.0</td></tr>
+              <tr><td>DP3</td><td>69.7</td><td>70</td><td>80</td><td>75.0</td></tr>
+              <tr><td>FVP</td><td>54.3</td><td>66</td><td>76</td><td>71.0</td></tr>
+              <tr><td>AFRO</td><td>76.0</td><td><strong>82</strong></td><td>84</td><td>83.0</td></tr>
+              <tr class="ours"><td>FASK (Ours)</td><td><strong>79.3</strong></td><td>80</td><td><strong>88</strong></td><td><strong>84.0</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-container paper-table">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+            <caption>Table II. Ablation results from the paper (%)</caption>
+            <thead>
+              <tr><th>Variant</th><th>Handle Press</th><th>Push Wall</th><th>Push</th><th>Stick Pull</th><th>Pen</th><th>Average</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Feedback disabled</td><td>84</td><td>78</td><td>76</td><td>70</td><td>86</td><td>78.8</td></tr>
+              <tr><td>Linear dynamics</td><td>90</td><td>86</td><td>84</td><td>68</td><td><strong>88</strong></td><td>83.2</td></tr>
+              <tr><td>w/o L<sub>con</sub></td><td>90</td><td>84</td><td>82</td><td>70</td><td>80</td><td>81.2</td></tr>
+              <tr class="ours"><td>Full FASK</td><td><strong>96</strong></td><td><strong>88</strong></td><td><strong>86</strong></td><td><strong>76</strong></td><td><strong>88</strong></td><td><strong>86.8</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section analysis-section">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Visualization Analysis</h2>
+        <div class="content has-text-justified analysis-intro">
+          <p>
+            We analyze whether the learned dynamics predict meaningful future evolution, whether consequence feedback improves candidate actions, and how state–action coupling changes across motion regimes.
+          </p>
+        </div>
+
+        <figure class="analysis-figure analysis-figure-medium">
+          <img src="static/images/future.png" alt="Target-aligned latent prediction compared with a persistence baseline" loading="lazy">
+          <figcaption>
+            <strong>Target-aligned latent prediction.</strong> On held-out MetaWorld Push transitions, 117 of 119 predictions (98%) are closer to the observed future than the persistence baseline, with a median relative error of 0.31×.
+          </figcaption>
+        </figure>
+
+        <figure class="analysis-figure">
+          <img src="static/images/dynamics_horizon.png" alt="Multi-step latent rollout errors across an eight-step prediction horizon" loading="lazy">
+          <figcaption>
+            <strong>Multi-step latent dynamics.</strong> The learned model maintains lower error than persistence throughout the eight-step rollout horizon, supporting its use for short-horizon consequence estimation.
+          </figcaption>
+        </figure>
+
+        <figure class="analysis-figure analysis-figure-medium">
+          <img src="static/images/feedback_correction_field.png" alt="Same-noise action refinement visualized in a shared PCA space" loading="lazy">
+          <figcaption>
+            <strong>Consequence-guided action correction.</strong> Same-noise refinement reduces future error for 79.8% of proposals, consistently steering refined actions toward the demonstrated future.
+          </figcaption>
+        </figure>
+
+        <figure class="analysis-figure analysis-figure-medium">
+          <img src="static/images/interaction_activation_portrait.png" alt="State-action interaction strength across observed latent motion regimes" loading="lazy">
+          <figcaption>
+            <strong>State–action interaction.</strong> The relative contribution of the bilinear interaction term increases with observed latent motion, with a Pearson correlation of 0.91.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Simulation Results</h2>
+        <div class="fask-carousel simulation-carousel" data-carousel aria-label="Simulation result videos">
+          <div class="carousel-viewport" tabindex="0">
+            <div class="carousel-track">
+              <div class="carousel-page">
+                <div class="columns video-grid simulation-grid">
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/dial_turn.mp4" type="video/mp4"></video><p>Dial Turn</p></div></div>
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/handle_press.mp4" type="video/mp4"></video><p>Handle Press</p></div></div>
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/peg_unplug_side.mp4" type="video/mp4"></video><p>Peg Unplug Side</p></div></div>
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/bin_picking.mp4" type="video/mp4"></video><p>Bin Picking</p></div></div>
+                </div>
+              </div>
+              <div class="carousel-page">
+                <div class="columns video-grid simulation-grid">
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/coffee_pull.mp4" type="video/mp4"></video><p>Coffee Pull</p></div></div>
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/peg_insert_side.mp4" type="video/mp4"></video><p>Peg Insert Side</p></div></div>
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/push_wall.mp4" type="video/mp4"></video><p>Push Wall</p></div></div>
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/soccer.mp4" type="video/mp4"></video><p>Soccer</p></div></div>
+                </div>
+              </div>
+              <div class="carousel-page">
+                <div class="columns video-grid simulation-grid">
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/sweep.mp4" type="video/mp4"></video><p>Sweep</p></div></div>
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/pick_out_of_hole.mp4" type="video/mp4"></video><p>Pick Out of Hole</p></div></div>
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/push.mp4" type="video/mp4"></video><p>Push</p></div></div>
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/stick_pull.mp4" type="video/mp4"></video><p>Stick Pull</p></div></div>
+                </div>
+              </div>
+              <div class="carousel-page">
+                <div class="columns video-grid simulation-grid">
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/stick_push.mp4" type="video/mp4"></video><p>Stick Push</p></div></div>
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/pick_place_wall.mp4" type="video/mp4"></video><p>Pick Place Wall</p></div></div>
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/adroit_door.mp4" type="video/mp4"></video><p>Adroit Door</p></div></div>
+                  <div class="column is-one-quarter"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/adroit_pen.mp4" type="video/mp4"></video><p>Adroit Pen</p></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-button carousel-button-prev" type="button" aria-label="Previous simulation page"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-button carousel-button-next" type="button" aria-label="Next simulation page"><i class="fas fa-chevron-right"></i></button>
+          <p class="carousel-status" aria-live="polite">1 / 4</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Real-World Experiments</h2>
+        <div class="fask-carousel real-carousel" data-carousel aria-label="Real-world experiment videos">
+          <div class="carousel-viewport" tabindex="0">
+            <div class="carousel-track">
+              <div class="carousel-page"><div class="real-grid"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/potato_into_bowl_web.mp4" type="video/mp4"></video><p>Potato into Bowl</p></div></div></div>
+              <div class="carousel-page"><div class="real-grid"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/open_drawer_web.mp4" type="video/mp4"></video><p>Drawer Opening</p></div></div></div>
+              <div class="carousel-page"><div class="real-grid"><div class="video-card"><video muted loop playsinline controls preload="metadata"><source src="static/videos/stack_blocks_web.mp4" type="video/mp4"></video><p>Block Stacking</p></div></div></div>
+            </div>
+          </div>
+          <button class="carousel-button carousel-button-prev" type="button" aria-label="Previous real-world video"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-button carousel-button-next" type="button" aria-label="Next real-world video"><i class="fas fa-chevron-right"></i></button>
+          <p class="carousel-status" aria-live="polite">1 / 3</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content has-text-centered">
+            <p>
+              This page was built using the
+              <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noreferrer">Academic Project Page Template</a>,
+              adopted from the <a href="https://nerfies.github.io" target="_blank" rel="noreferrer">Nerfies</a> project page.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/fask-carousel.js"></script>
+</body>
+</html>
