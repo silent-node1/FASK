@@ -85,6 +85,17 @@ body {
   scrollbar-width: auto;
 }
 
+.paper-table-caption {
+  margin: 2rem 0 0.75rem;
+  color: #555;
+  font-weight: 600;
+  text-align: center;
+}
+
+.paper-table-caption + .paper-table {
+  margin-top: 0;
+}
+
 .paper-table::-webkit-scrollbar {
   height: 12px;
 }
